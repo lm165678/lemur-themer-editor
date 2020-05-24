@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+group 'com.jayfella'
+version '1.0.0'
+mainClassName = "com.jayfella.lemur.editor.Main"
+
+repositories {
+    mavenLocal()
+    jcenter()
+
+    maven { url  "https://dl.bintray.com/stephengold/org.jmonkeyengine" }
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+ext {
+    jmeVersion = "3.3.2-stable"
+    version_jackson = "2.11.0"
+}
+
+configurations {
+    releaseJar.extendsFrom implementation
+}
+
+ext {
+    jmeVersion = "3.3.2-stable"
+    version_jackson = "2.11.0"
+}
+
+dependencies {
+
+    implementation "com.jayfella:jme-easylogger:1.0.0"
+    implementation "com.jayfella:lemur-themer:1.0.0"
+
+    implementation "org.jmonkeyengine:jme3-core:$jmeVersion"
+    implementation "org.jmonkeyengine:jme3-lwjgl:$jmeVersion"
+    implementation "org.jmonkeyengine:jme3-desktop:$jmeVersion"
+    implementation "org.jmonkeyengine:jme3-plugins:$jmeVersion"
+
+    implementation "org.jmonkeyengine:jme3-testdata:3.3.0-alpha2"
+
+    implementation "com.simsilica:lemur:1.14.0-SNAPSHOT"
+    implementation "com.simsilica:lemur-proto:1.11.0"
+
+}
+
+jar {
+
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+
+    from configurations.releaseJar.collect { it.isDirectory() ? it : zipTree(it) }
+}
