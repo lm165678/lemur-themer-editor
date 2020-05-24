@@ -16,7 +16,7 @@ publishing {
 }
 
 group 'com.jayfella'
-version '1.0.0'
+version '0.0.1'
 mainClassName = "com.jayfella.lemur.editor.Main"
 
 repositories {
